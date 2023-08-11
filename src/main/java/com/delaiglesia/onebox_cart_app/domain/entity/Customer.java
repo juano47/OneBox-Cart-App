@@ -1,0 +1,22 @@
+package com.delaiglesia.onebox_cart_app.domain.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class Customer {
+  private Long id;
+  private String firstname;
+  private String lastname;
+  private String email;
+  private String phone;
+  private List<CustomerAddress> addresses;
+	private List<Cart> carts;
+}
