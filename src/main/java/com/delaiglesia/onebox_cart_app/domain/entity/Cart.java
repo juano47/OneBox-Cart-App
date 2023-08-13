@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,10 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Cart {
+public class Cart implements Serializable {
   private Long id;
   private List<CartItem> items;
-  private Double total;
+  private double total;
   private Customer customer;
   private CartStatus status;
   private LocalDateTime createdAt;

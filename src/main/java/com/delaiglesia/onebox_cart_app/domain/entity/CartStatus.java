@@ -5,8 +5,6 @@ public enum CartStatus {
   EMPTY,
   // the user is adding items to the cart
   ACTIVE,
-  // the user is updating the cart
-  UPDATING,
   // ready to start payment process
   CHECKOUT,
   PAYMENT_PROCESSING,

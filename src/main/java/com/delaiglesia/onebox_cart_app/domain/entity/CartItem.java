@@ -12,6 +12,6 @@ import lombok.Setter;
 public class CartItem {
   private Long id;
   private Product product;
-  private Integer quantity;
-  private Double price;
+  private int quantity;
+  private double price;
 }
