@@ -18,26 +18,27 @@ public class CartConfig {
 
   @Bean
   public CartRepositoryImpl createCartRepository(
-      MySqlCartRepository mySqlCartRepository, CartRepositoryConverter cartRepositoryConverter) {
+      final MySqlCartRepository mySqlCartRepository,
+      final CartRepositoryConverter cartRepositoryConverter) {
     return new CartRepositoryImpl(mySqlCartRepository, cartRepositoryConverter);
   }
 
   @Bean
   public CreateCartUseCase createCreateCartUseCase(
-      CartRepository cartRepository,
-      CustomerRepository customerRepository,
-      ProductRepository productRepository) {
+      final CartRepository cartRepository,
+      final CustomerRepository customerRepository,
+      final ProductRepository productRepository) {
     return new CreateCartUseCase(cartRepository, customerRepository, productRepository);
   }
 
   @Bean
-  public GetCartUseCase createGetCartUseCase(CartRepository cartRepository) {
+  public GetCartUseCase createGetCartUseCase(final CartRepository cartRepository) {
     return new GetCartUseCase(cartRepository);
   }
 
   @Bean
   public UpdateCartUseCase createUpdateCartUseCase(
-      CartRepository cartRepository, ProductRepository productRepository) {
+      final CartRepository cartRepository, ProductRepository productRepository) {
     return new UpdateCartUseCase(cartRepository, productRepository);
   }
 

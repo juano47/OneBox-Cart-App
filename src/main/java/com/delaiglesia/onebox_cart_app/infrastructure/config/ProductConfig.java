@@ -11,8 +11,8 @@ public class ProductConfig {
 
   @Bean
   public ProductRepositoryImpl createProductRepository(
-      MySqlProductRepository mySqlProductRepository,
-      ProductRepositoryConverter productRepositoryConverter) {
+      final MySqlProductRepository mySqlProductRepository,
+      final ProductRepositoryConverter productRepositoryConverter) {
     return new ProductRepositoryImpl(mySqlProductRepository, productRepositoryConverter);
   }
 }

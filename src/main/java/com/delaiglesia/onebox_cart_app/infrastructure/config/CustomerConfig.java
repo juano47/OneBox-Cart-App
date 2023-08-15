@@ -11,8 +11,8 @@ public class CustomerConfig {
 
   @Bean
   public CustomerRepositoryImpl createCustomerRepository(
-      MySqlCustomerRepository mySqlCustomerRepository,
-      CustomerRepositoryConverter customerRepositoryConverter) {
+      final MySqlCustomerRepository mySqlCustomerRepository,
+      final CustomerRepositoryConverter customerRepositoryConverter) {
     return new CustomerRepositoryImpl(mySqlCustomerRepository, customerRepositoryConverter);
   }
 }

@@ -35,7 +35,7 @@ public class UpdateCartUseCase {
 		return cartRepository.saveCart(cartDb);
   }
 
-  private void updateCartItems(Cart cartDb, List<CartItem> items) {
+  private void updateCartItems(final Cart cartDb, final List<CartItem> items) {
     for (CartItem item : items) {
       // add new items
       if (item.getId() == null) {
@@ -61,7 +61,7 @@ public class UpdateCartUseCase {
     }
   }
 
-  private void updateTotalPrice(Cart cartDb, List<CartItem> items) {
+  private void updateTotalPrice(final Cart cartDb, final List<CartItem> items) {
     if (items == null || items.isEmpty()) {
       cartDb.setTotal(0.0);
       return;

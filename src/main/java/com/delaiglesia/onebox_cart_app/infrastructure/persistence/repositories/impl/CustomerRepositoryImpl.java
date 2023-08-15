@@ -14,13 +14,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
   private final CustomerRepositoryConverter customerRepositoryConverter;
 
   @Override
-  public Customer saveCustomer(Customer customer) {
+  public Customer saveCustomer(final Customer customer) {
     return customerRepositoryConverter.mapToEntity(
         mySqlCustomerRepository.save(customerRepositoryConverter.mapToTable(customer)));
   }
 
   @Override
-  public Customer getCustomer(Long id) {
+  public Customer getCustomer(final Long id) {
     return customerRepositoryConverter.mapToEntity(
         mySqlCustomerRepository
             .findById(id)

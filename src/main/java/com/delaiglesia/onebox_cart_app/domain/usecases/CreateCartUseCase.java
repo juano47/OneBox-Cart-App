@@ -43,7 +43,7 @@ public class CreateCartUseCase {
     return cartRepository.saveCart(cart);
   }
 
-  private List<CartItem> setCartItems(List<CartItem> items) {
+  private List<CartItem> setCartItems(final List<CartItem> items) {
     for (CartItem item : items) {
       if (item.getProduct().getId() == null) {
         throw new IllegalArgumentException("Product id must be set");

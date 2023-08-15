@@ -15,12 +15,12 @@ public class ProductRepositoryImpl implements ProductRepository {
   private final ProductRepositoryConverter productRepositoryConverter;
 
   @Override
-  public Product saveProduct(Product product) {
+  public Product saveProduct(final Product product) {
     return null;
   }
 
   @Override
-  public Product getProduct(Long id) {
+  public Product getProduct(final Long id) {
     return productRepositoryConverter.mapToEntity(
         mySqlProductRepository
             .findById(id)
@@ -28,10 +28,14 @@ public class ProductRepositoryImpl implements ProductRepository {
   }
 
   @Override
-  public void removeProduct(Long id) {}
+  public void removeProduct(final Long id) {
+    mySqlProductRepository.deleteById(id);
+  }
 
   @Override
   public List<Product> getAllProducts() {
-    return null;
+    return mySqlProductRepository.findAll().stream()
+        .map(productRepositoryConverter::mapToEntity)
+        .toList();
   }
 }

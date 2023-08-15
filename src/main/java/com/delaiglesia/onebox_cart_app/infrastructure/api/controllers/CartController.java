@@ -45,23 +45,23 @@ public class CartController {
   }
 
   @GetMapping
-  public List<CartDto> getCarts(@RequestParam String status) {
+  public List<CartDto> getCarts(@RequestParam final String status) {
     return getCartsUseCase.execute(status).stream().map(cartRestConverter::mapToDto).toList();
   }
 
   @GetMapping("/{id}")
-  public CartDto getCart(@PathVariable Long id) {
+  public CartDto getCart(@PathVariable final Long id) {
     return cartRestConverter.mapToDto(getCartUseCase.execute(id));
   }
 
   @PostMapping
-  public CartDto createCart(@Valid @RequestBody CartDto cartDto) {
+  public CartDto createCart(@Valid @RequestBody final CartDto cartDto) {
     return cartRestConverter.mapToDto(
         createCartUseCase.execute(cartRestConverter.mapToEntityCreate(cartDto)));
   }
 
   @PutMapping("/{id}")
-  public CartDto updateCart(@PathVariable Long id, @RequestBody CartDto cartDto) {
+  public CartDto updateCart(@PathVariable final Long id, @RequestBody final CartDto cartDto) {
     return cartRestConverter.mapToDto(
         updateCartUseCase.execute(id, cartRestConverter.mapToEntity(cartDto)));
   }

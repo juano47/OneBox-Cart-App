@@ -17,13 +17,13 @@ public class CartRepositoryImpl implements CartRepository {
   private final CartRepositoryConverter cartRepositoryConverter;
 
   @Override
-  public Cart saveCart(Cart cart) {
+  public Cart saveCart(final Cart cart) {
     return cartRepositoryConverter.mapToEntity(
         mySqlCartRepository.save(cartRepositoryConverter.mapToTable(cart)));
   }
 
   @Override
-  public Cart getCart(Long id) {
+  public Cart getCart(final Long id) {
     return cartRepositoryConverter.mapToEntity(
         mySqlCartRepository
             .findById(id)
@@ -31,12 +31,12 @@ public class CartRepositoryImpl implements CartRepository {
   }
 
   @Override
-  public void removeCart(Long id) {
+  public void removeCart(final Long id) {
     mySqlCartRepository.deleteById(id);
   }
 
   @Override
-  public List<Cart> getAllCartsByStatus(CartStatus status) {
+  public List<Cart> getAllCartsByStatus(final CartStatus status) {
     return mySqlCartRepository.findAllByStatus(status).stream()
         .map(cartRepositoryConverter::mapToEntity)
         .toList();
