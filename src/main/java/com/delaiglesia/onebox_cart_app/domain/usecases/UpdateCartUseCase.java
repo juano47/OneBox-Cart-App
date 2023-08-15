@@ -4,7 +4,7 @@ import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartItem;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
-import com.delaiglesia.onebox_cart_app.domain.repository.ProductRepository;
+import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,11 +12,19 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UpdateCartUseCase {
   private final CartRepository cartRepository;
-
-  private final ProductRepository productRepository;
+  private final CartItemService cartItemService;
 
   public Cart execute(final Long id, final Cart cart) {
     Cart cartDb = cartRepository.getCart(id);
+
+    // check finals status
+    if (cartDb.getStatus() == CartStatus.EXPIRED
+        || cartDb.getStatus() == CartStatus.USER_REMOVED
+        || cartDb.getStatus() == CartStatus.COMPLETED
+        || cartDb.getStatus() == CartStatus.CANCELLED
+        || cartDb.getStatus() == CartStatus.USER_CANCELLED) {
+      throw new IllegalArgumentException("The cart is in a final status and cannot be updated");
+    }
 
     if (cart.getItems() == null || cart.getItems().isEmpty()) {
       cartDb.setStatus(CartStatus.EMPTY);
@@ -24,7 +32,7 @@ public class UpdateCartUseCase {
       cartDb.setStatus(CartStatus.ACTIVE);
     }
 
-    updateCartItems(cartDb, cart.getItems());
+    cartDb.setItems(cartItemService.setCartItems(cart.getItems(), cartDb));
     updateTotalPrice(cartDb, cart.getItems());
 
     if (cart.getShippingAddress() != null) {
@@ -32,33 +40,7 @@ public class UpdateCartUseCase {
     }
     cartDb.setUpdatedAt(LocalDateTime.now());
 
-		return cartRepository.saveCart(cartDb);
-  }
-
-  private void updateCartItems(final Cart cartDb, final List<CartItem> items) {
-    for (CartItem item : items) {
-      // add new items
-      if (item.getId() == null) {
-        // check if the product exists
-        if (productRepository.getProduct(item.getProduct().getId()) == null) {
-          throw new IllegalArgumentException(
-              "Product with id " + item.getProduct().getId() + " not found");
-        }
-        cartDb.getItems().add(item);
-      } else { // update existing items
-        CartItem itemDb =
-            cartDb.getItems().stream()
-                .filter(i -> i.getId().equals(item.getId()))
-                .findFirst()
-                .orElseThrow(
-                    () ->
-                        new IllegalArgumentException(
-                            "Item with id " + item.getId() + " not found"));
-        int quantity = item.getQuantity();
-        itemDb.setQuantity(quantity);
-        itemDb.setPrice(item.getProduct().getPrice() * quantity);
-      }
-    }
+    return cartRepository.saveCart(cartDb);
   }
 
   private void updateTotalPrice(final Cart cartDb, final List<CartItem> items) {

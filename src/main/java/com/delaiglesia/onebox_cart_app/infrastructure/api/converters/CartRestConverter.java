@@ -32,6 +32,12 @@ public interface CartRestConverter extends RestConverter<CartDto, Cart> {
   @Mapping(target = "items", source = "items")
   Cart mapToEntityCreate(CartDto cartDto);
 
+  @Override
+  @BeanMapping(ignoreByDefault = true)
+  @Mapping(target = "shippingAddress", source = "shippingAddress")
+  @Mapping(target = "items", source = "items")
+  Cart mapToEntity(CartDto cartDto);
+
   @Named("mapCustomer")
   default CustomerDto mapCustomer(Customer customer) {
     if (customer == null) {

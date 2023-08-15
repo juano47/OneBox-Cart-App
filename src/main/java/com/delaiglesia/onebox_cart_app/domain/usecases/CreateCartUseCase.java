@@ -1,17 +1,13 @@
 package com.delaiglesia.onebox_cart_app.domain.usecases;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
-import com.delaiglesia.onebox_cart_app.domain.entity.CartItem;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import com.delaiglesia.onebox_cart_app.domain.entity.Customer;
-import com.delaiglesia.onebox_cart_app.domain.entity.Product;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.repository.CustomerRepository;
-import com.delaiglesia.onebox_cart_app.domain.repository.ProductRepository;
-import lombok.AllArgsConstructor;
-
+import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
 import java.time.LocalDateTime;
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class CreateCartUseCase {
@@ -19,7 +15,7 @@ public class CreateCartUseCase {
 
   private final CustomerRepository customerRepository;
 
-  private final ProductRepository productRepository;
+  private final CartItemService cartItemService;
 
   public Cart execute(final Cart cart) {
     if (cart.getCustomer() == null) {
@@ -38,26 +34,8 @@ public class CreateCartUseCase {
     } else {
       cart.setStatus(CartStatus.ACTIVE);
 
-      cart.setItems(setCartItems(cart.getItems()));
+      cart.setItems(cartItemService.setCartItems(cart.getItems(), null));
     }
     return cartRepository.saveCart(cart);
-  }
-
-  private List<CartItem> setCartItems(final List<CartItem> items) {
-    for (CartItem item : items) {
-      if (item.getProduct().getId() == null) {
-        throw new IllegalArgumentException("Product id must be set");
-      }
-
-      Product product = productRepository.getProduct(item.getProduct().getId());
-      // check if the product exists
-      if (product == null) {
-        throw new IllegalArgumentException("Product does not exist");
-      }
-      item.setProduct(product);
-
-      item.setPrice(product.getPrice() * item.getQuantity());
-    }
-    return items;
   }
 }

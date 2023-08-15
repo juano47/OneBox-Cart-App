@@ -3,6 +3,7 @@ package com.delaiglesia.onebox_cart_app.infrastructure.config;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.repository.CustomerRepository;
 import com.delaiglesia.onebox_cart_app.domain.repository.ProductRepository;
+import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
 import com.delaiglesia.onebox_cart_app.domain.usecases.CreateCartUseCase;
 import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartUseCase;
 import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartsUseCase;
@@ -27,8 +28,8 @@ public class CartConfig {
   public CreateCartUseCase createCreateCartUseCase(
       final CartRepository cartRepository,
       final CustomerRepository customerRepository,
-      final ProductRepository productRepository) {
-    return new CreateCartUseCase(cartRepository, customerRepository, productRepository);
+      final CartItemService cartItemService) {
+    return new CreateCartUseCase(cartRepository, customerRepository, cartItemService);
   }
 
   @Bean
@@ -38,8 +39,8 @@ public class CartConfig {
 
   @Bean
   public UpdateCartUseCase createUpdateCartUseCase(
-      final CartRepository cartRepository, ProductRepository productRepository) {
-    return new UpdateCartUseCase(cartRepository, productRepository);
+      final CartRepository cartRepository, CartItemService cartItemService) {
+    return new UpdateCartUseCase(cartRepository, cartItemService);
   }
 
   @Bean
