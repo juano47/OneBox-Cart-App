@@ -1,10 +1,14 @@
 services:
   mysql:
+    container_name: mySql-OneBox-db
     image: 'mysql:latest'
-    environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+    restart: on-failure
+    volumes:
+      - onebox-volume:/var/lib/app/mysql/data
+    env_file:
+      - mysql-db.dev.env
     ports:
       - '3306'
+
+volumes:
+  onebox-volume:
