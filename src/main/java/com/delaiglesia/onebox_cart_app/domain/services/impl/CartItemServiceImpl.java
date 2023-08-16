@@ -18,20 +18,18 @@ public class CartItemServiceImpl implements CartItemService {
   public List<CartItem> setCartItems(final List<CartItem> items, final Cart cartDb) {
     for (CartItem item : items) {
       int quantity = item.getQuantity();
+      if (item.getProduct() ==null || item.getProduct().getId() == null) {
+        throw new IllegalArgumentException("Product must be set");
+      }
       Product product = productRepository.getProduct(item.getProduct().getId());
+      // check if the product exists
+      if (product == null) {
+        throw new IllegalArgumentException(
+            "Product with id " + item.getProduct().getId() + " not found");
+      }
       // add new items
       if (item.getId() == null) {
-        if (item.getProduct().getId() == null) {
-          throw new IllegalArgumentException("Product id must be set");
-        }
-
-        // check if the product exists
-        if (product == null) {
-          throw new IllegalArgumentException(
-              "Product with id " + item.getProduct().getId() + " not found");
-        }
         item.setProduct(product);
-
       } else { // update existing items
         // check if the item exists
         Optional<CartItem> cartItemDb =
