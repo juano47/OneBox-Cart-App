@@ -15,7 +15,7 @@ public interface CartRepository {
 
   List<Cart> getAllCartsByStatus(CartStatus status);
 
-	List<Cart> findCartsNotUpdatedInLastTenMinutes(LocalDateTime cutoffTime);
+	List<Cart> findCartsNotUpdatedInLastTenMinutes(LocalDateTime cutoffTime, List<CartStatus> statuses);
 
 	void saveAllCarts(List<Cart> expiredCarts);
 }

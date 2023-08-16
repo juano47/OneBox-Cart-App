@@ -51,8 +51,8 @@ public class CartRepositoryImpl implements CartRepository {
   }
 
   @Transactional
-  public List<Cart> findCartsNotUpdatedInLastTenMinutes(LocalDateTime cutoffTime) {
-    return mySqlCartRepository.findCartsNotUpdatedInLastTenMinutes(cutoffTime).stream()
+  public List<Cart> findCartsNotUpdatedInLastTenMinutes(LocalDateTime cutoffTime, List<CartStatus> statuses) {
+    return mySqlCartRepository.findCartsNotUpdatedInLastTenMinutes(cutoffTime, statuses).stream()
         .map(cartRepositoryConverter::mapToEntity)
         .toList();
   }

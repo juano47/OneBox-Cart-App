@@ -12,8 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface MySqlCartRepository extends JpaRepository<CartEntity, Long> {
   List<CartEntity> findAllByStatus(CartStatus status);
 
-  @Query(
-      "SELECT c FROM CartEntity c WHERE c.updatedAt <= :cutoffTime "
-          + "AND (c.status = 'EMPTY' OR c.status = 'ACTIVE' OR c.status = 'CHECKOUT')")
-  List<CartEntity> findCartsNotUpdatedInLastTenMinutes(LocalDateTime cutoffTime);
+  @Query("SELECT c FROM CartEntity c WHERE c.updatedAt <= :cutoffTime AND (c.status IN :statuses)")
+  List<CartEntity> findCartsNotUpdatedInLastTenMinutes(
+      LocalDateTime cutoffTime, List<CartStatus> statuses);
 }
