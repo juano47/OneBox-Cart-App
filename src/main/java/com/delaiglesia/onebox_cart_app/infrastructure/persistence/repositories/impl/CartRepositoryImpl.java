@@ -25,9 +25,9 @@ public class CartRepositoryImpl implements CartRepository {
   }
 
   @Override
-  public void saveAllCarts(List<Cart> expiredCarts) {
+  public void saveAllCarts(List<Cart> carts) {
     mySqlCartRepository.saveAll(
-        expiredCarts.stream().map(cartRepositoryConverter::mapToTable).toList());
+        carts.stream().map(cartRepositoryConverter::mapToTable).toList());
   }
 
   @Override
@@ -35,7 +35,7 @@ public class CartRepositoryImpl implements CartRepository {
     return cartRepositoryConverter.mapToEntity(
         mySqlCartRepository
             .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Requested cart does not exist")));
+            .orElseThrow(() -> new EntityNotFoundException("Cart with id " + id + " not found")));
   }
 
   @Override
