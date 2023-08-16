@@ -24,6 +24,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     return customerRepositoryConverter.mapToEntity(
         mySqlCustomerRepository
             .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Customer not found")));
+            .orElseThrow(
+                () -> new EntityNotFoundException("Customer with id " + id + " not found")));
   }
 }
