@@ -15,7 +15,7 @@ public class CartItemServiceImpl implements CartItemService {
   private final ProductRepository productRepository;
 
   @Override
-  public List<CartItem> setCartItems(List<CartItem> items, Cart cartDb) {
+  public List<CartItem> setCartItems(final List<CartItem> items, final Cart cartDb) {
     for (CartItem item : items) {
       int quantity = item.getQuantity();
       Product product = productRepository.getProduct(item.getProduct().getId());

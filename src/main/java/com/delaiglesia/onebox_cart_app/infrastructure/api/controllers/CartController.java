@@ -1,6 +1,7 @@
 package com.delaiglesia.onebox_cart_app.infrastructure.api.controllers;
 
 import com.delaiglesia.onebox_cart_app.domain.usecases.CreateCartUseCase;
+import com.delaiglesia.onebox_cart_app.domain.usecases.DeleteCartUseCase;
 import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartUseCase;
 import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartsUseCase;
 import com.delaiglesia.onebox_cart_app.domain.usecases.UpdateCartUseCase;
@@ -8,6 +9,8 @@ import com.delaiglesia.onebox_cart_app.infrastructure.api.converters.CartRestCon
 import com.delaiglesia.onebox_cart_app.infrastructure.api.dto.CartDto;
 import jakarta.validation.Valid;
 import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +32,8 @@ public class CartController {
 
   private final GetCartsUseCase getCartsUseCase;
 
+  private final DeleteCartUseCase deleteCartUseCase;
+
   private final CartRestConverter cartRestConverter;
 
   public CartController(
@@ -36,11 +41,12 @@ public class CartController {
       final GetCartUseCase getCartUseCase,
       final UpdateCartUseCase updateCartUseCase,
       final GetCartsUseCase getCartsUseCase,
-      final CartRestConverter cartRestConverter) {
+      DeleteCartUseCase deleteCartUseCase, final CartRestConverter cartRestConverter) {
     this.createCartUseCase = createCartUseCase;
     this.getCartUseCase = getCartUseCase;
     this.updateCartUseCase = updateCartUseCase;
     this.getCartsUseCase = getCartsUseCase;
+    this.deleteCartUseCase = deleteCartUseCase;
     this.cartRestConverter = cartRestConverter;
   }
 
@@ -64,5 +70,11 @@ public class CartController {
   public CartDto updateCart(@PathVariable final Long id, @RequestBody final CartDto cartDto) {
     return cartRestConverter.mapToDto(
         updateCartUseCase.execute(id, cartRestConverter.mapToEntity(cartDto)));
+  }
+
+  //physical delete
+  @DeleteMapping("/{id}")
+  public void deleteCart(@PathVariable final Long id) {
+    deleteCartUseCase.execute(id);
   }
 }

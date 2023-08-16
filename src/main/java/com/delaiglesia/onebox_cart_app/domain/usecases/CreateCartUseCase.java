@@ -6,6 +6,7 @@ import com.delaiglesia.onebox_cart_app.domain.entity.Customer;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.repository.CustomerRepository;
 import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
+import com.delaiglesia.onebox_cart_app.domain.services.CartService;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 
@@ -16,6 +17,8 @@ public class CreateCartUseCase {
   private final CustomerRepository customerRepository;
 
   private final CartItemService cartItemService;
+
+  private final CartService cartService;
 
   public Cart execute(final Cart cart) {
     if (cart.getCustomer() == null) {
@@ -29,12 +32,14 @@ public class CreateCartUseCase {
     }
 
     cart.setCreatedAt(LocalDateTime.now());
+    cart.setUpdatedAt(LocalDateTime.now());
     if (cart.getItems() == null || cart.getItems().isEmpty()) {
       cart.setStatus(CartStatus.EMPTY);
     } else {
       cart.setStatus(CartStatus.ACTIVE);
 
       cart.setItems(cartItemService.setCartItems(cart.getItems(), null));
+      cart.setTotal(cartService.calculateTotalPrice(cart.getItems()));
     }
     return cartRepository.saveCart(cart);
   }

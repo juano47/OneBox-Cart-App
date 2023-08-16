@@ -3,6 +3,8 @@ package com.delaiglesia.onebox_cart_app.infrastructure.persistence.entities;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,6 +36,7 @@ public class CartEntity implements Serializable {
 
   private double total;
   @ManyToOne private CustomerEntity customer;
+  @Enumerated(EnumType.STRING)
   private CartStatus status;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;

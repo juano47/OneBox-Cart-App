@@ -1,18 +1,19 @@
 package com.delaiglesia.onebox_cart_app.domain.usecases;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
-import com.delaiglesia.onebox_cart_app.domain.entity.CartItem;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
+import com.delaiglesia.onebox_cart_app.domain.services.CartService;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class UpdateCartUseCase {
   private final CartRepository cartRepository;
   private final CartItemService cartItemService;
+
+  private final CartService cartService;
 
   public Cart execute(final Long id, final Cart cart) {
     Cart cartDb = cartRepository.getCart(id);
@@ -33,7 +34,7 @@ public class UpdateCartUseCase {
     }
 
     cartDb.setItems(cartItemService.setCartItems(cart.getItems(), cartDb));
-    updateTotalPrice(cartDb, cart.getItems());
+    cartDb.setTotal(cartService.calculateTotalPrice(cart.getItems()));
 
     if (cart.getShippingAddress() != null) {
       cartDb.setShippingAddress(cart.getShippingAddress());
@@ -41,14 +42,5 @@ public class UpdateCartUseCase {
     cartDb.setUpdatedAt(LocalDateTime.now());
 
     return cartRepository.saveCart(cartDb);
-  }
-
-  private void updateTotalPrice(final Cart cartDb, final List<CartItem> items) {
-    if (items == null || items.isEmpty()) {
-      cartDb.setTotal(0.0);
-      return;
-    }
-
-    items.stream().map(CartItem::getPrice).reduce(Double::sum).ifPresent(cartDb::setTotal);
   }
 }
