@@ -1,5 +1,6 @@
 package com.delaiglesia.onebox_cart_app.domain.usecases;
 
+import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import lombok.AllArgsConstructor;
 
@@ -8,6 +9,7 @@ public class DeleteCartUseCase {
 
 	private final CartRepository cartRepository;
 	public void execute(Long id) {
-		cartRepository.removeCart(id);
+		Cart cartDb = cartRepository.getCart(id);
+		cartRepository.removeCart(cartDb.getId());
 	}
 }
