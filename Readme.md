@@ -23,8 +23,9 @@ cart, add products to it, remove products from it, etc.
   easy to test and extend.
 * **Minimum test coverage.** It was created unit tests for the main classes and core business logic. I was decided to
   use **JUnit** and **Mockito** to achieve this goal.
-* **Documentation**. It was created a **Swagger** documentation to describe the API and how to use it. And also it was
-  added a Class Diagram to help understand the code structure in a quick glance.
+* **Documentation**. It was added a Class Diagram to help understand the code structure in a quick glance. It is also
+  useful added tools as Swagger to document the API,
+  it was not done for reasons of time.
 
 ### Business logic decisions
 
