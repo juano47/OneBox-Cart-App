@@ -16,6 +16,9 @@ public class CartItemServiceImpl implements CartItemService {
 
   @Override
   public List<CartItem> setCartItems(final List<CartItem> items, final Cart cartDb) {
+    if (items == null || items.isEmpty()) {
+      return List.of();
+    }
     for (CartItem item : items) {
       int quantity = item.getQuantity();
       if (item.getProduct() ==null || item.getProduct().getId() == null) {
