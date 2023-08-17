@@ -121,4 +121,12 @@ class CartItemServiceImplTest {
 
     verify(productRepository).getProduct(1L);
   }
+
+  @Test
+  void setCartItems_EmptyList() {
+    List<CartItem> result = cartItemServiceImpl.setCartItems(null, new Cart());
+
+    assertNotNull(result);
+    assertEquals(0, result.size());
+  }
 }
