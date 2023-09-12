@@ -79,7 +79,7 @@ class CartRepositoryImplTest {
     Optional<CartEntity> cartEntityOutput = Optional.of(new CartEntity());
 
     when(mySqlCartRepository.findById(cartId)).thenReturn(cartEntityOutput);
-    when(cartRepositoryConverter.mapToEntity(any(CartEntity.class))).thenReturn(cartOutput);
+    when(cartRepositoryConverter.mapToEntity(cartEntityOutput.get())).thenReturn(cartOutput);
 
     Cart result = cartRepository.getCart(cartId);
 

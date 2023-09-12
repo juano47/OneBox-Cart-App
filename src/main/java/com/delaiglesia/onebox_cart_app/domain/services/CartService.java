@@ -5,5 +5,5 @@ import com.delaiglesia.onebox_cart_app.domain.entity.CartItem;
 import java.util.List;
 
 public interface CartService {
-	Double calculateTotalPrice(final List<CartItem> items);
+	Double calculateTotalPrice(List<CartItem> items);
 }

@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@UseCase
 public class CreateCartUseCase {
   private final CartRepository cartRepository;
 

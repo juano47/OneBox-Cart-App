@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@UseCase
 public class UpdateCartUseCase {
   private final CartRepository cartRepository;
   private final CartItemService cartItemService;

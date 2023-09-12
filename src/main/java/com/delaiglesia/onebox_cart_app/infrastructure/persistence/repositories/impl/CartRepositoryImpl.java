@@ -10,7 +10,9 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @AllArgsConstructor
 public class CartRepositoryImpl implements CartRepository {
 
@@ -51,7 +53,7 @@ public class CartRepositoryImpl implements CartRepository {
   }
 
   @Transactional
-  public List<Cart> findCartsNotUpdatedInLastTenMinutes(LocalDateTime cutoffTime, List<CartStatus> statuses) {
+  public List<Cart> findCartsNotUpdatedInLastTenMinutes(final LocalDateTime cutoffTime, final List<CartStatus> statuses) {
     return mySqlCartRepository.findCartsNotUpdatedInLastTenMinutes(cutoffTime, statuses).stream()
         .map(cartRepositoryConverter::mapToEntity)
         .toList();

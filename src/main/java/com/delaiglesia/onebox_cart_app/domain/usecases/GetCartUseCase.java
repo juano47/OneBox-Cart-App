@@ -5,6 +5,7 @@ import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
+@UseCase
 public class GetCartUseCase {
 	private final CartRepository cartRepository;
 

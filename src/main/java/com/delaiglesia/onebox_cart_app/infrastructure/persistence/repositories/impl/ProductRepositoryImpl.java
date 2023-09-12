@@ -6,7 +6,9 @@ import com.delaiglesia.onebox_cart_app.infrastructure.persistence.converters.Pro
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.MySqlProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @AllArgsConstructor
 public class ProductRepositoryImpl implements ProductRepository {
 

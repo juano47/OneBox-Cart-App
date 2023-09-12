@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @AllArgsConstructor
+@Service
 public class CartScheduleTaskService {
 
   private static final Logger logger = Logger.getLogger(CartScheduleTaskService.class.getName());
@@ -25,16 +26,17 @@ public class CartScheduleTaskService {
   public void updateCartToExpiredStatus() {
     logger.info("Executing updateCartToExpiredStatus scheduled task...");
     LocalDateTime cutoffTime = LocalDateTime.now().minus(10, ChronoUnit.MINUTES);
-    List<CartStatus> statuses = Arrays.asList(CartStatus.EMPTY, CartStatus.ACTIVE, CartStatus.CHECKOUT);
-    List<Cart> expiredCarts = cartRepository.findCartsNotUpdatedInLastTenMinutes(cutoffTime, statuses);
+    List<CartStatus> statuses =
+        Arrays.asList(CartStatus.EMPTY, CartStatus.ACTIVE, CartStatus.CHECKOUT);
+    List<Cart> expiredCarts =
+        cartRepository.findCartsNotUpdatedInLastTenMinutes(cutoffTime, statuses);
     if (expiredCarts.isEmpty()) {
       logger.info("No expired carts found");
-    }else {
+    } else {
       logger.log(Level.INFO, "Found {0} expired carts", expiredCarts.size());
       expiredCarts.forEach(cart -> cart.setStatus(CartStatus.EXPIRED));
       cartRepository.saveAllCarts(expiredCarts);
       logger.info("Finished updateCartToExpiredStatus scheduled task");
     }
-
   }
 }

@@ -7,8 +7,11 @@ import com.delaiglesia.onebox_cart_app.domain.repository.ProductRepository;
 import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
 import java.util.List;
 import java.util.Optional;
+
+import com.delaiglesia.onebox_cart_app.domain.services.Service;
 import lombok.AllArgsConstructor;
 
+@Service
 @AllArgsConstructor
 public class CartItemServiceImpl implements CartItemService {
 
@@ -21,7 +24,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
     for (CartItem item : items) {
       int quantity = item.getQuantity();
-      if (item.getProduct() ==null || item.getProduct().getId() == null) {
+      if (item.getProduct() == null || item.getProduct().getId() == null) {
         throw new IllegalArgumentException("Product must be set");
       }
       Product product = productRepository.getProduct(item.getProduct().getId());

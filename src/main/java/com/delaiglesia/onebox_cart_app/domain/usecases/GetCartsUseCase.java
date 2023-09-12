@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 @AllArgsConstructor
+@UseCase
 public class GetCartsUseCase {
 	private final CartRepository cartRepository;
 
