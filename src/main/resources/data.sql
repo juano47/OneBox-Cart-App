@@ -1,14 +1,10 @@
 INSERT IGNORE INTO product (id, name, description, price)
-VALUES (1, 'Smartphone XYZ-200', 'Potente smartphone con cámara de alta resolución.', 599.99),
-       (2, 'Laptop Ultrabook Pro', 'Laptop ligera y potente con pantalla táctil.', 1099.99),
-       (3, 'Tablet NexusTab 10', 'Tablet con pantalla HD y gran capacidad de almacenamiento.', 349.99),
-       (4, 'Auriculares SoundWave', 'Auriculares inalámbricos con cancelación de ruido.', 199.99),
-       (5, 'Smart TV VisionPlus 55"', 'Televisor inteligente con resolución 4K y aplicaciones integradas.', 799.99),
-       (6, 'Cámara Fotográfica EOS-500', 'Cámara DSLR con lentes intercambiables y alta calidad de imagen.', 899.99),
-       (7, 'Altavoz Bluetooth BassBoost', 'Altavoz portátil con potente sonido y bajos profundos.', 79.99),
-       (8, 'Monitor Curvo Gamer 27"', 'Monitor curvo diseñado para una experiencia de juego inmersiva.', 499.99),
-       (9, 'Robot Aspiradora SmartClean', 'Robot inteligente que limpia automáticamente tu hogar.', 249.99),
-       (10, 'Smartwatch PulseTrack', 'Reloj inteligente con seguimiento de actividad y notificaciones.', 149.99);
+VALUES (1, 'Asado',
+        'Carne asada con papas fritas y ensalada de lechuga y tomate con vinagreta de aceite de oliva y limón', 10.0),
+       (2, 'Sushi with Salmon and Avocado', 'Finest fish and veggies', 22.99),
+       (3, 'Schnitzel with Fries and Salad', 'A german specialty!', 16.5),
+       (4, 'Barbecue Burger with Bacon and Cheese', 'American, raw, meaty', 12.99),
+       (5, 'Green Bowl with Chicken and Avocado', 'Healthy...and green...', 18.99);
 
 INSERT IGNORE INTO customer (id, firstname, lastname, email, phone)
 VALUES (1, 'Ana', 'García', 'ana@example.com', '+34 612345678'),
