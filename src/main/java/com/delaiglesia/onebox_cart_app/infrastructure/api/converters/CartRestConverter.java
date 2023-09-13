@@ -30,6 +30,7 @@ public interface CartRestConverter extends RestConverter<CartDto, Cart> {
   @Mapping(target = "customer", source = "customer")
   @Mapping(target = "shippingAddress", source = "shippingAddress")
   @Mapping(target = "items", source = "items")
+  @Mapping(target = "total", source = "total")
   Cart mapToEntityCreate(CartDto cartDto);
 
   @Override

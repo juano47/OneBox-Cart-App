@@ -35,9 +35,13 @@ public class CartEntity implements Serializable {
   private List<CartItemEntity> items;
 
   private double total;
-  @ManyToOne private CustomerEntity customer;
+
+  @ManyToOne(cascade = {CascadeType.ALL})
+  private CustomerEntity customer;
+
   @Enumerated(EnumType.STRING)
   private CartStatus status;
+
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
   private LocalDateTime deletedAt;
