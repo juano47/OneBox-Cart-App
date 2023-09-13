@@ -1,10 +1,30 @@
-INSERT IGNORE INTO product (id, name, description, price)
+INSERT IGNORE INTO restaurant (id, name)
+VALUES (1, 'Restaurante 1'),
+       (2, 'Restaurante 2'),
+       (3, 'Restaurante 3'),
+       (4, 'Restaurante 4'),
+       (5, 'Restaurante 5');
+
+INSERT IGNORE INTO product (id, name, description, price, restaurant_id)
 VALUES (1, 'Asado',
-        'Carne asada con papas fritas y ensalada de lechuga y tomate con vinagreta de aceite de oliva y limón', 10.0),
-       (2, 'Sushi with Salmon and Avocado', 'Finest fish and veggies', 22.99),
-       (3, 'Schnitzel with Fries and Salad', 'A german specialty!', 16.5),
-       (4, 'Barbecue Burger with Bacon and Cheese', 'American, raw, meaty', 12.99),
-       (5, 'Green Bowl with Chicken and Avocado', 'Healthy...and green...', 18.99);
+        'Carne asada con papas fritas y ensalada de lechuga y tomate con vinagreta de aceite de oliva y limón', 10.0,
+        1),
+       (2, 'Sushi with Salmon and Avocado', 'Finest fish and veggies', 22.99, 1),
+       (3, 'Schnitzel with Fries and Salad', 'A german specialty!', 16.5, 1),
+       (4, 'Barbecue Burger with Bacon and Cheese', 'American, raw, meaty', 12.99, 1),
+       (5, 'Green Bowl with Chicken and Avocado', 'Healthy...and green...', 18.99, 1),
+       (6, 'Pasta Alfredo', 'Deliciosa pasta con salsa Alfredo cremosa', 14.99, 2),
+       (7, 'Pizza Pepperoni', 'Pizza con pepperoni y queso derretido', 11.50, 2),
+       (8, 'Ensalada César', 'Ensalada fresca con pollo a la parrilla y aderezo César', 9.99, 2),
+       (9, 'Tacos de Carnitas', 'Tacos mexicanos rellenos de carnitas y guacamole', 13.75, 2),
+       (10, 'Sopa de Tomate', 'Sopa caliente de tomate con crutones', 7.95, 2),
+       (11, 'Rolls de Tempura', 'Rolls de sushi con tempura crujiente', 15.25, 3),
+       (12, 'Pollo Teriyaki', 'Pollo a la parrilla con salsa teriyaki', 16.99, 3),
+       (13, 'Tiramisú', 'Postre italiano de café y mascarpone', 8.50, 3),
+       (14, 'Hamburguesa Vegetariana', 'Hamburguesa vegetariana con queso y aguacate', 10.99, 3),
+       (15, 'Filete de Salmón a la Parrilla', 'Filete de salmón fresco a la parrilla', 19.50, 3);
+
+
 
 INSERT IGNORE INTO customer (id, firstname, lastname, email, phone)
 VALUES (1, 'Ana', 'García', 'ana@example.com', '+34 612345678'),
