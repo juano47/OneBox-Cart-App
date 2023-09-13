@@ -13,6 +13,7 @@ import com.delaiglesia.onebox_cart_app.domain.entity.CustomerAddress;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
 import com.delaiglesia.onebox_cart_app.domain.services.CartService;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.UpdateCartUseCase;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

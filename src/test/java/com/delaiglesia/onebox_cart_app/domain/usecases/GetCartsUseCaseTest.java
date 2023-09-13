@@ -10,6 +10,7 @@ import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.repository.DomainPage;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.GetCartsUseCase;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.CartPage;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

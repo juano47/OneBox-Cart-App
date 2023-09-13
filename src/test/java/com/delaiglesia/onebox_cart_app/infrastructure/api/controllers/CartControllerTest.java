@@ -13,11 +13,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
-import com.delaiglesia.onebox_cart_app.domain.usecases.CreateCartUseCase;
-import com.delaiglesia.onebox_cart_app.domain.usecases.DeleteCartUseCase;
-import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartUseCase;
-import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartsUseCase;
-import com.delaiglesia.onebox_cart_app.domain.usecases.UpdateCartUseCase;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.CreateCartUseCase;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.DeleteCartUseCase;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.GetCartUseCase;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.GetCartsUseCase;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.UpdateCartUseCase;
 import com.delaiglesia.onebox_cart_app.infrastructure.api.converters.CartRestConverter;
 import com.delaiglesia.onebox_cart_app.infrastructure.api.dto.CartDto;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.CartPage;

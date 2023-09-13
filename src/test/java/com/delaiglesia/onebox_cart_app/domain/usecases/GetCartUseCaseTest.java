@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
+import com.delaiglesia.onebox_cart_app.domain.usecases.cart.GetCartUseCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,10 +1,11 @@
-package com.delaiglesia.onebox_cart_app.domain.usecases;
+package com.delaiglesia.onebox_cart_app.domain.usecases.cart;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
 import com.delaiglesia.onebox_cart_app.domain.services.CartItemService;
 import com.delaiglesia.onebox_cart_app.domain.services.CartService;
+import com.delaiglesia.onebox_cart_app.domain.usecases.UseCase;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 
