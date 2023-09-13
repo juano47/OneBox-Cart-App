@@ -5,6 +5,7 @@ import com.delaiglesia.onebox_cart_app.domain.repository.ProductRepository;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.converters.ProductRepositoryConverter;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.MySqlProductRepository;
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +23,10 @@ public class ProductRepositoryImpl implements ProductRepository {
             .findById(id)
             .orElseThrow(
                 () -> new EntityNotFoundException("Product with id " + id + " not found")));
+  }
+
+  @Override
+  public List<Product> getAllProducts() {
+    return productRepositoryConverter.mapToEntity(mySqlProductRepository.findAll());
   }
 }
