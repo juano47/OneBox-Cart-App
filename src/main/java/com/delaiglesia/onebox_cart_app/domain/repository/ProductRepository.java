@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ProductRepository {
 
-	Product getProduct(Long id);
+  Product getProduct(Long id);
 
-	List<Product> getAllProducts();
+  List<Product> getAllProducts();
 }
