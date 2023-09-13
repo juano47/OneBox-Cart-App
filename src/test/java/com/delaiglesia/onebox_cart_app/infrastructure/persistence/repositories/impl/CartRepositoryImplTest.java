@@ -11,8 +11,10 @@ import static org.mockito.Mockito.when;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
+import com.delaiglesia.onebox_cart_app.domain.repository.DomainPage;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.converters.CartRepositoryConverter;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.entities.CartEntity;
+import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.CartPageable;
 import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.MySqlCartRepository;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
@@ -20,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 class CartRepositoryImplTest {
 
@@ -118,17 +122,20 @@ class CartRepositoryImplTest {
   @Test
   void getAllCartsByStatus() {
     CartStatus status = CartStatus.EMPTY;
-    List<Cart> cartsOutput = List.of(new Cart(), new Cart());
     List<CartEntity> cartEntitiesOutput = List.of(new CartEntity(), new CartEntity());
+    Pageable pageable = Pageable.ofSize(2);
 
-    when(mySqlCartRepository.findAllByStatus(status)).thenReturn(cartEntitiesOutput);
+    when(mySqlCartRepository.findAllByStatus(pageable, status))
+        .thenReturn(new PageImpl<>(cartEntitiesOutput, pageable, 2L));
+    when(cartRepositoryConverter.mapToEntity(any(CartEntity.class))).thenReturn(new Cart());
     when(cartRepositoryConverter.mapToEntity(any(CartEntity.class))).thenReturn(new Cart());
 
-    List<Cart> result = cartRepository.getAllCartsByStatus(status);
+    DomainPage<Cart> result =
+        cartRepository.getAllCartsByStatus(new CartPageable(pageable), status);
 
-    assertEquals(2, result.size());
+    assertEquals(2, result.getContent().size());
 
-    verify(mySqlCartRepository).findAllByStatus(status);
+    verify(mySqlCartRepository).findAllByStatus(pageable, status);
     verify(cartRepositoryConverter, times(2)).mapToEntity(any(CartEntity.class));
   }
 

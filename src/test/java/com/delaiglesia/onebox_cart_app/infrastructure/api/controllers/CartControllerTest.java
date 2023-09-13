@@ -2,13 +2,14 @@ package com.delaiglesia.onebox_cart_app.infrastructure.api.controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
@@ -19,14 +20,22 @@ import com.delaiglesia.onebox_cart_app.domain.usecases.GetCartsUseCase;
 import com.delaiglesia.onebox_cart_app.domain.usecases.UpdateCartUseCase;
 import com.delaiglesia.onebox_cart_app.infrastructure.api.converters.CartRestConverter;
 import com.delaiglesia.onebox_cart_app.infrastructure.api.dto.CartDto;
+import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.CartPage;
+import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.CartPageable;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MvcResult;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = CartController.class)
 class CartControllerTest extends AbstractControllerTest {
 
   @MockBean private CreateCartUseCase createCartUseCase;
@@ -45,7 +54,8 @@ class CartControllerTest extends AbstractControllerTest {
   void getCarts() throws Exception {
     String status = "RANDOM_STATUS";
     List<Cart> expectedCarts = List.of(new Cart(), new Cart());
-    when(getCartsUseCase.execute(status)).thenReturn(expectedCarts);
+    when(getCartsUseCase.execute(any(CartPageable.class), eq(status)))
+        .thenReturn(new CartPage(new PageImpl<>(expectedCarts, Pageable.unpaged(), 2)));
     when(cartRestConverter.mapToDto(any(Cart.class))).thenReturn(new CartDto());
 
     MvcResult result =
@@ -60,11 +70,17 @@ class CartControllerTest extends AbstractControllerTest {
     assertNotNull(result.getResponse().getContentAsString());
     assertFalse(result.getResponse().getContentAsString().isEmpty());
 
-    List<CartDto> responseBody =
-        objectMapper.readValue(result.getResponse().getContentAsString(), List.class);
-    assertEquals(expectedCarts.size(), responseBody.size());
+    JsonNode jsonNode = objectMapper.readTree(result.getResponse().getContentAsString());
+    List<CartDto> cartDtos = objectMapper.readValue(jsonNode.get("content").toString(), List.class);
+    // assert content
+    assertEquals(expectedCarts.size(), cartDtos.size());
+    // assert pagination
+    assertEquals(expectedCarts.size(), jsonNode.get("totalElements").asInt());
+    assertEquals(0, jsonNode.get("number").asInt());
+    assertEquals(1, jsonNode.get("totalPages").asInt());
+    assertEquals(20, jsonNode.get("size").asInt());
 
-    verify(getCartsUseCase).execute(status);
+    verify(getCartsUseCase).execute(any(CartPageable.class), eq(status));
     verify(cartRestConverter, times(expectedCarts.size())).mapToDto(any(Cart.class));
   }
 
@@ -179,6 +195,6 @@ class CartControllerTest extends AbstractControllerTest {
         .andExpect(status().isOk())
         .andReturn();
 
-		verify(deleteCartUseCase).execute(cartId);
+    verify(deleteCartUseCase).execute(cartId);
   }
 }

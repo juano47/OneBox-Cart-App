@@ -9,9 +9,13 @@ import static org.mockito.Mockito.when;
 import com.delaiglesia.onebox_cart_app.domain.entity.Cart;
 import com.delaiglesia.onebox_cart_app.domain.entity.CartStatus;
 import com.delaiglesia.onebox_cart_app.domain.repository.CartRepository;
+import com.delaiglesia.onebox_cart_app.domain.repository.DomainPage;
+import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.CartPage;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 class GetCartsUseCaseTest {
 
@@ -27,25 +31,27 @@ class GetCartsUseCaseTest {
 
   @Test
   void execute() {
-		String status = "empty";
-		List<Cart> expectedCarts = List.of(new Cart());
+    String status = "empty";
+    List<Cart> expectedCarts = List.of(new Cart());
 
-		when(cartRepository.getAllCartsByStatus(CartStatus.EMPTY)).thenReturn(expectedCarts);
+    when(cartRepository.getAllCartsByStatus(null, CartStatus.EMPTY))
+        .thenReturn(new CartPage(new PageImpl<>(expectedCarts, Pageable.unpaged(), 1)));
 
-		List<Cart> result = getCartsUseCase.execute(status);
+    DomainPage<Cart> result = getCartsUseCase.execute(null, status);
 
-		assertEquals(expectedCarts, result);
+    assertEquals(expectedCarts, result.getContent());
+    assertEquals(1, result.getTotalElements());
 
-		verify(cartRepository).getAllCartsByStatus(CartStatus.EMPTY);
-	}
+    verify(cartRepository).getAllCartsByStatus(null, CartStatus.EMPTY);
+  }
 
-@Test
-	void executeWithInvalidStatus() {
-		String status = "invalid";
-		
-		IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> getCartsUseCase.execute(status));
-		assertEquals("Status is not valid", exception.getMessage());
+  @Test
+  void executeWithInvalidStatus() {
+    String status = "invalid";
+    IllegalArgumentException exception =
+        assertThrows(IllegalArgumentException.class, () -> getCartsUseCase.execute(null, status));
+    assertEquals("Status is not valid", exception.getMessage());
 
-		verifyNoInteractions(cartRepository);
-	}
+    verifyNoInteractions(cartRepository);
+  }
 }
