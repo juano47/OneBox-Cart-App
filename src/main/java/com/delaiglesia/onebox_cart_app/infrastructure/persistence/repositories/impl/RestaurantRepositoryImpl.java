@@ -7,9 +7,9 @@ import com.delaiglesia.onebox_cart_app.infrastructure.persistence.repositories.M
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
+@Component
 @AllArgsConstructor
 public class RestaurantRepositoryImpl implements RestaurantRepository {
 
